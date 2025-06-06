@@ -1,7 +1,7 @@
 # Educational-Recommendation-System
 An system to give recommendations of career path for students by their school performance
 
-#How can we use it?
+# How can we use it?
 
 1. Open the all folders by Vscode or other application
 2. Open terminal
