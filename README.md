@@ -1,5 +1,5 @@
 # Educational-Recommendation-System
-An system to give recommendations of career path for students by their school performance
+A system to give recommendations of career path for students by their school performance
 
 ## How can we use it?
 
