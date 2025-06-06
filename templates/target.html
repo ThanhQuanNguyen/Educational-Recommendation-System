@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Target Career Analysis</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+  <div class="container py-5">
+    <h1 class="text-center mb-4">Target Career Analysis</h1>
+
+    <!-- Form Section -->
+    <div class="card shadow-sm mb-5">
+      <div class="card-body">
+        <form method="POST" action="/target">
+          <div class="mb-3">
+            <label for="target_career" class="form-label">Select Your Target Career</label>
+            <select class="form-select" name="target_career" id="target_career" required>
+              <option value="" disabled selected>Choose a career</option>
+              {% for c in ['Lawyer', 'Doctor', 'Government Officer', 'Artist', 'Software Engineer', 'Teacher',
+                          'Business Owner', 'Scientist', 'Banker', 'Writer', 'Accountant', 'Designer',
+                          'Construction Engineer', 'Game Developer', 'Stock Investor', 'Real Estate Developer'] %}
+                <option value="{{ c }}" {% if career == c %}selected{% endif %}>{{ c }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="row g-3">
+            {% for subject in ['Math', 'History', 'Physics', 'Chemistry', 'Biology', 'Geography', 'English'] %}
+            <div class="col-md-4">
+              <label for="{{ subject.lower() }}_score" class="form-label">{{ subject }} Score</label>
+              <input type="number" step="0.01" class="form-control" name="{{ subject.lower() }}_score" id="{{ subject.lower() }}_score" required>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    {% if result %}
+    <div class="card shadow-sm">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Subject Gap Analysis for <strong>{{ career }}</strong></h5>
+      </div>
+      <div class="card-body">
+        <p class="mb-3">Here’s how your academic scores align with the recommended profile for a <strong>{{ career }}</strong>:</p>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Subject</th>
+                <th>Your Score</th>
+                <th>Target Score</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in result %}
+              <tr>
+                <td>{{ row.subject }}</td>
+                <td>{{ row.score }}</td>
+                <td>{{ row.target }}</td>
+                <td>
+                  {% if "Improve" in row.status %}
+                    <span class="text-danger">{{ row.status }}</span>
+                  {% else %}
+                    <span class="text-success">{{ row.status }}</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {% elif error %}
+    <div class="alert alert-danger text-center">
+      {{ error }}
+    </div>
+    {% endif %}
+  </div>
+
+</body>
+</html>
